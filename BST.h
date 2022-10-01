@@ -14,7 +14,7 @@ public:
 
     void remove(T item);
     void insert(T item);
-    BinaryNode<T> *find(T item);
+    BinaryNode<T> *find(T item, long &checks);
 
     void preorderTraversal();
     void inorderTraversal();
@@ -28,7 +28,7 @@ public:
 private:
     void remove(T item, BinaryNode<T> *t);
     void insert(T item, BinaryNode<T> *&t);
-    BinaryNode<T> *find(T item, BinaryNode<T> *t);
+    BinaryNode<T> *find(T item, BinaryNode<T> *t, long &checks);
     BinaryNode<T> *findMin(BinaryNode<T> *t);
     BinaryNode<T> *findMax(BinaryNode<T> *t);
     void preorderTraversal(BinaryNode<T> *t);
@@ -71,9 +71,9 @@ void BST<T>::insert(T item)
 }
 
 template <typename T>
-BinaryNode<T> *BST<T>::find(T item)
+BinaryNode<T> *BST<T>::find(T item, long &checks)
 {
-    find(item, root);
+    return find(item, root, checks);
 }
 
 template <typename T>
@@ -118,11 +118,11 @@ void BST<T>::remove(T item, BinaryNode<T> *t)
     if (t == nullptr)
         return;
 
-    if (item < t->data)
+    if (item.compare(t->data) < 0)
     {
         remove(item, t->left);
     }
-    else if (item > t->data)
+    else if (item.compare(t->data) > 0)
     {
         remove(item, t->right);
     }
@@ -155,23 +155,27 @@ void BST<T>::insert(T item, BinaryNode<T> *&t)
 {
     if (t == nullptr) {
         t = new BinaryNode<T>(item);
-    } else if (item < t->data) {
+        numberOfNodes++;
+    } else if (item.compare(t->data) < 0) {
         insert(item, t->left);
-    } else if (item > t->data) {
+    } else if (item.compare(t->data) > 0) {
         insert(item, t->right);
     }
 }
 
 template <typename T>
-BinaryNode<T> *BST<T>::find(T item, BinaryNode<T> *t)
+BinaryNode<T> *BST<T>::find(T item, BinaryNode<T> *t, long &checks)
 {
     if (t == nullptr) {
         return nullptr;
-    } else if (item < t->data) {
-        return find(item, t->left);
-    } else if (item > t->data) {
-        return find(item, t->right);
+    } else if (item.compare(t->data) < 0) {
+        checks ++;
+        return find(item, t->left, checks);
+    } else if (item.compare(t->data) > 0) {
+        checks += 2;
+        return find(item, t->right, checks);
     } else {
+        checks += 2;
         return t;
     }
 }
