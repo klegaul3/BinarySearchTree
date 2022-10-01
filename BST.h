@@ -2,6 +2,7 @@
 #ifndef BST_H
 #define BST_H
 
+#include <iostream>
 #include "BinaryNode.h"
 
 template <typename T>
@@ -14,17 +15,26 @@ public:
     void remove(T item);
     void insert(T item);
     BinaryNode<T> *find(T item);
-    BinaryNode<T> *findMin(BinaryNode<T> *t);
-    BinaryNode<T> *findMax(BinaryNode<T> *t);
+
+    void preorderTraversal();
+    void inorderTraversal();
+    void postorderTraversal();
 
     int getNumberOfNodes();
     int getHeight();
     int getMinHeight();
+    bool isEmpty();
 
 private:
     void remove(T item, BinaryNode<T> *t);
     void insert(T item, BinaryNode<T> *&t);
     BinaryNode<T> *find(T item, BinaryNode<T> *t);
+    BinaryNode<T> *findMin(BinaryNode<T> *t);
+    BinaryNode<T> *findMax(BinaryNode<T> *t);
+    void preorderTraversal(BinaryNode<T> *t);
+    void inorderTraversal(BinaryNode<T> *t);
+    void postorderTraversal(BinaryNode<T> *t);
+    
 
     BinaryNode<T> *root;
     int numberOfNodes;
@@ -67,23 +77,38 @@ BinaryNode<T> *BST<T>::find(T item)
 }
 
 template <typename T>
-BinaryNode<T> *findMin(BinaryNode<T> *t)
-{
-    if (t == nullptr)
-        return nullptr;
-    else if (t->left == nullptr)
-        return t;
-    return findMin(t->left);
+int BST<T>::getNumberOfNodes() {
+    return numberOfNodes;
 }
 
 template <typename T>
-BinaryNode<T> *findMax(BinaryNode<T> *t)
-{
-    if (t == nullptr)
-        return nullptr;
-    else if (t->right == nullptr)
-        return t;
-    return findMin(t->right);
+int BST<T>::getHeight() {
+    return height;
+}
+
+template <typename T>
+int BST<T>::getMinHeight() {
+    return minHeight;
+}
+
+template <typename T>
+void BST<T>::preorderTraversal() {
+    preorderTraversal(root);
+}
+
+template <typename T>
+void BST<T>::inorderTraversal() {
+    inorderTraversal(root);
+}
+
+template <typename T>
+void BST<T>::postorderTraversal() {
+    postorderTraversal(root);
+}
+
+template <typename T>
+bool BST<T>::isEmpty() {
+    return numberOfNodes == 0;
 }
 
 // Private Methods
@@ -145,9 +170,62 @@ BinaryNode<T> *find(T item, BinaryNode<T> *t)
     } else if (item < t->data) {
         return find(item, t->left);
     } else if (item > t->data) {
-        return find(item t->right);
+        return find(item, t->right);
     } else {
         return t;
+    }
+}
+
+template <typename T>
+BinaryNode<T> *findMin(BinaryNode<T> *t)
+{
+    if (t == nullptr)
+        return nullptr;
+    else if (t->left == nullptr)
+        return t;
+    return findMin(t->left);
+}
+
+template <typename T>
+BinaryNode<T> *findMax(BinaryNode<T> *t)
+{
+    if (t == nullptr)
+        return nullptr;
+    else if (t->right == nullptr)
+        return t;
+    return findMin(t->right);
+}
+
+template <typename T>
+void BST<T>::preorderTraversal(BinaryNode<T> *t) {
+    if (t == nullptr) {
+        return;
+    } else {
+        std::cout << t->data << std::endl;
+        preorderTraversal(t->left);
+        preorderTraversal(t->right);
+    }
+}
+
+template <typename T>
+void BST<T>::inorderTraversal(BinaryNode<T> *t) {
+    if (t == nullptr) {
+        return;
+    } else {
+        inorderTraversal(t->left);
+        std::cout << t->data << std::endl;
+        inorderTraversal(t->right);
+    }
+}
+
+template <typename T>
+void BST<T>::postorderTraversal(BinaryNode<T> *t) {
+    if (t == nullptr) {
+        return;
+    } else {
+        postorderTraversal(t->left);
+        postorderTraversal(t->right);
+        std::cout << t->data << std::endl;
     }
 }
 
