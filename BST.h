@@ -151,7 +151,7 @@ void BST<T>::remove(T item, BinaryNode<T> *t)
 }
 
 template <typename T>
-void insert(T item, BinaryNode<T> *&t)
+void BST<T>::insert(T item, BinaryNode<T> *&t)
 {
     if (t == nullptr) {
         t = new BinaryNode<T>(item);
@@ -163,7 +163,7 @@ void insert(T item, BinaryNode<T> *&t)
 }
 
 template <typename T>
-BinaryNode<T> *find(T item, BinaryNode<T> *t)
+BinaryNode<T> *BST<T>::find(T item, BinaryNode<T> *t)
 {
     if (t == nullptr) {
         return nullptr;
@@ -177,7 +177,7 @@ BinaryNode<T> *find(T item, BinaryNode<T> *t)
 }
 
 template <typename T>
-BinaryNode<T> *findMin(BinaryNode<T> *t)
+BinaryNode<T> *BST<T>::findMin(BinaryNode<T> *t)
 {
     if (t == nullptr)
         return nullptr;
@@ -187,7 +187,7 @@ BinaryNode<T> *findMin(BinaryNode<T> *t)
 }
 
 template <typename T>
-BinaryNode<T> *findMax(BinaryNode<T> *t)
+BinaryNode<T> *BST<T>::findMax(BinaryNode<T> *t)
 {
     if (t == nullptr)
         return nullptr;
